@@ -1,0 +1,8 @@
+Homestead Clinic - Record Accuracy
+Latest project source: version 14
+Source commit: 30b70c898f4b35726ab9ab9294c948fb7e838c8f
+
+This ZIP contains the source files, database schema and migrations, configuration, and dependency lockfile.
+Extract the ZIP before uploading its contents to GitHub.
+Dependencies, build output, credentials, and saved patient/database contents are excluded.
+The clinic uses server routes and a persistent database. GitHub Pages alone cannot run its saving features.
