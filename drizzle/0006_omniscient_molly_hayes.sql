@@ -1,0 +1,1 @@
+ALTER TABLE `records` ADD `gender` text DEFAULT '' NOT NULL;
