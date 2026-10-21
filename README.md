@@ -19,3 +19,7 @@ pnpm exec vite build --config github-pages/vite.config.ts
 Copy the contents of `github-pages-dist/` to the repository root, preserve `.nojekyll`, and commit the new index.html, favicon and assets. In Settings → Pages use Deploy from a branch, main, / (root). Keep the source folders; GitHub Pages does not run API route source files.
 
 Backend changes must also be built and deployed to the existing Site project, retaining its D1 database. Changes to frontend and backend must be coordinated. Source includes the existing duplicate patient prevention and dynamic record-accuracy measurement.
+
+## Clear Access interface
+
+The homepage uses a navy and amber hospital layout, licensed Pexels healthcare photography, and custom dimensional SVG medical objects. `app/hospital.css` contains the visual theme and responsive navigation; `app/hospital-home.tsx` contains the homepage. All existing clinic API and data handlers remain in place. Photo sources are recorded in `public/images/credits.txt`.
