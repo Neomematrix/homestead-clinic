@@ -3,11 +3,11 @@ import "./globals.css";
 import "./hospital.css";
 
 export const metadata: Metadata = {
-  title: "Homestead Clinic | Intake & Vaccination",
+  title: "Homestead Clinic",
   description: "Fictional clinic intake and vaccination record accuracy demonstration.",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: "/favicon.svg?v=2",
+    shortcut: "/favicon.svg?v=2",
   },
 };
 
