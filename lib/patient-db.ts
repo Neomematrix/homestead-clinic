@@ -14,9 +14,9 @@ export async function resolvePatient(w:string,name:string,dob:string,id?:string)
  const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(JSON.stringify([w,name.trim().toLowerCase(),dob])));
  return "PAT-"+Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,"0")).join("");
 }
-export function patientStatements(w:string,r:any,createOnly=false){
+export function patientStatements(w:string,r:any,createOnly=false,previous?:{name:string;dob:string}){
  const data={patientId:r.patientId,name:r.name,firstName:r.firstName,lastName:r.lastName,gender:r.gender||"",dob:r.dob,homeAddress:r.homeAddress,phone:r.phone,email:r.email,needs:r.needs,insurance:r.insurance};
- return [db().prepare("INSERT INTO patients (patient_id,workspace,name,dob,data) VALUES (?,?,?,?,?)"+(createOnly?"":" ON CONFLICT(patient_id) DO UPDATE SET data=excluded.data")).bind(r.patientId,w,r.name.trim().toLowerCase(),r.dob,JSON.stringify(data)),db().prepare("UPDATE records SET first_name=?,last_name=?,gender=?,home_address=?,phone=?,email=? WHERE workspace=? AND lower(trim(name))=lower(trim(?)) AND dob=? AND patient_id NOT LIKE 'TEST-%'").bind(r.firstName,r.lastName,r.gender||"",r.homeAddress,r.phone,r.email,w,r.name,r.dob)];
+ return [db().prepare("INSERT INTO patients (patient_id,workspace,name,dob,data) VALUES (?,?,?,?,?)"+(createOnly?"":" ON CONFLICT(patient_id) DO UPDATE SET name=excluded.name,dob=excluded.dob,data=excluded.data")).bind(r.patientId,w,r.name.trim().toLowerCase(),r.dob,JSON.stringify(data)),db().prepare("UPDATE records SET name=?,dob=?,first_name=?,last_name=?,gender=?,home_address=?,phone=?,email=? WHERE workspace=? AND lower(trim(name))=lower(trim(?)) AND dob=? AND patient_id NOT LIKE 'TEST-%'").bind(r.name,r.dob,r.firstName,r.lastName,r.gender||"",r.homeAddress,r.phone,r.email,w,previous?.name||r.name,previous?.dob||r.dob)];
 }
 
 // Compare the individual identity fields; legacy records may only have a name.

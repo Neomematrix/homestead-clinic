@@ -6,6 +6,16 @@ const duplicate=()=>Response.json({error:"Duplicate patient record already exist
 export async function POST(req:Request){
  try {
   const payload:any=await req.json(),w=await workspace();
+  if(payload.mode==="update"){
+   const existing=(await listPatients(w)).find(r=>r.patientId===payload.patientId);
+   if(!existing)return Response.json({error:"Choose an existing patient to edit."},{status:404});
+   const parsed=patientSchema.safeParse(payload);
+   if(!parsed.success)return Response.json({error:parsed.error.issues.map(issue=>`${issue.path.join(" ")}: ${issue.message}`).join("; ")},{status:400});
+   if((await listPatients(w)).some(r=>r.patientId!==existing.patientId&&samePatientIdentity(r,parsed.data)))return duplicate();
+   const patientId=existing.patientId,patient={...parsed.data,name:parsed.data.firstName+" "+parsed.data.lastName,patientId};
+   await db().batch(patientStatements(w,patient,false,existing));
+   return Response.json({ok:true,patientId,patient});
+  }
   let parsed;
   if(payload.firstName===undefined){
    const contact=contactSchema.parse(payload);
