@@ -36,3 +36,9 @@ This is a source-code change. Do not mark the live issue resolved merely because
 5. Verify same-day/29-day vaccination repeats are blocked and exactly 30 days is accepted. Record fresh screenshots and expected/actual results for Card #989.
 
 AI provenance: ChatGPT/Codex authored the patch and regression tests. The student/team should review the changes and confirm the deployed behavior before accepting the card. The earlier course-board security rollback is separate from this patient-data bug.
+
+## Existing-profile UI protection (November 9 follow-up)
+
+The live backend was still accepting profile changes through vaccination entry. The frontend now compares the selected patient's identity, contact details, medical needs and insurance before continuation, Save Patient and final vaccination submission. Changed details are blocked with instructions to use Edit patient. Selecting a patient now retains medical needs. Accuracy-test entry remains separate.
+
+Regression checks cover changed email/needs, custom insurance, explicit selection, and both actual submit handlers refusing API calls for changed profiles. The merged records API already returns PATIENT_DETAILS_CHANGED without writes; Kyle must deploy it to the original Site for server-side protection. Browser guards do not replace that deployment. AI-assisted implementation.

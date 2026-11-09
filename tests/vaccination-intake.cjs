@@ -53,13 +53,24 @@ const request=data=>new Request('http://test/api',{method:'POST',headers:{'Conte
  currentWorkspace='qa-989-other';assert.equal((await post(records,shot)).status,201);
  // Real step-one handler blocks duplicate continuation, but allows explicit selection.
  const source=fs.readFileSync('app/clinic.tsx','utf8');
- const handler=source.slice(source.indexOf('function continueToVaccination('),source.indexOf('function sample()'));
- const ctx={accuracyEntry:false,form:{patientId:''},matchingPatient:{patientId},message:'',step:1,setMessage:v=>ctx.message=v,setIntakeStep:v=>ctx.step=v};
+ const handler=source.slice(source.indexOf('function patientInformationError('),source.indexOf('function sample()'));
+ const profile={...shot,patientId,name:shot.firstName+' '+shot.lastName};
+ const ctx={accuracyEntry:false,patients:[profile],patientKey:r=>r.name.trim().toLowerCase()+'|'+r.dob,form:{...profile,patientId:''},matchingPatient:{patientId},message:'',step:1,setMessage:v=>ctx.message=v,setIntakeStep:v=>ctx.step=v};
  vm.createContext(ctx);vm.runInContext(ts.transpileModule(handler,{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText,ctx);
  const event={preventDefault(){},currentTarget:{reportValidity:()=>true}};
  ctx.continueToVaccination(event);assert.equal(ctx.step,1);assert.match(ctx.message,/Duplicate patient/);
  ctx.form.patientId=patientId;ctx.continueToVaccination(event);assert.equal(ctx.step,2);
- ctx.step=1;ctx.form.patientId='';ctx.matchingPatient=undefined;ctx.continueToVaccination(event);assert.equal(ctx.step,2);
+ ctx.step=1;ctx.form.email='changed@example.invalid';ctx.continueToVaccination(event);assert.equal(ctx.step,1);assert.match(ctx.message,/Use Edit patient/);
+ ctx.form={...profile};ctx.form.needs='changed needs';ctx.continueToVaccination(event);assert.equal(ctx.step,1);
+ ctx.form={...profile,insurance:'Other',otherInsurance:profile.insurance};ctx.continueToVaccination(event);assert.equal(ctx.step,2);
+ ctx.step=1;ctx.form={...profile,patientId:''};ctx.matchingPatient=undefined;ctx.continueToVaccination(event);assert.equal(ctx.step,2);
+ // Exercise the real final submit handlers: stale/changed profiles must never reach the API.
+ const saves=source.slice(source.indexOf('async function savePatient('),source.indexOf('function patientInformationError('));
+ vm.runInContext(ts.transpileModule(saves,{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText,ctx);
+ ctx.form={...profile,email:'overwrite@example.invalid'};ctx.step=2;
+ ctx.call=()=>{throw new Error('Changed profile reached the API');};
+ await ctx.save(event);assert.equal(ctx.step,1);assert.match(ctx.message,/Use Edit patient/);
+ await ctx.savePatient();assert.match(ctx.message,/Use Edit patient/);
  console.log('PASS: alternate-path duplicate rejection, unchanged profiles/history/snapshots, required fields, explicit selection, spacing boundaries, different vaccine, new patient, concurrency, atomic rollback, workspace isolation, and UI continuation.');
  sqlite.close();fs.rmSync(dir,{recursive:true});
 })().catch(e=>{console.error(e);process.exitCode=1});

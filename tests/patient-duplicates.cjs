@@ -17,8 +17,8 @@ const request=data=>new Request('http://test/api',{method:'POST',headers:{'Conte
  const original={firstName:'Fictional',lastName:'Duplicatecheck',dob:'1990-03-14',gender:'Nonbinary',homeAddress:'123 Fictional Lane, Miami, FL 33101',phone:'305-555-0199',email:'duplicatecheck@example.com',needs:'Fictional test',insurance:'None'};
  // Execute the actual UI Save Patient handler with API-backed fetch and state setters.
  const source=fs.readFileSync('app/clinic.tsx','utf8');
- const handler=source.slice(source.indexOf('async function savePatient()'),source.indexOf('async function save(e:'));
- const context={form:{...original},patients:[],message:'',busy:false,call:async(url,body)=>{const r=await intake.POST(request(body));const d=await r.json();if(!r.ok)throw new Error(d.error);return d;},setBusy:v=>context.busy=v,setMessage:v=>context.message=v,setPatients:f=>context.patients=f(context.patients),setPatient:()=>{},setPortalPatient:()=>{},setForm:v=>context.form=v,setTab:()=>{}};
+ const handler=source.slice(source.indexOf('async function savePatient()'),source.indexOf('async function save(e:'))+source.slice(source.indexOf('function patientInformationError('),source.indexOf('function continueToVaccination('));
+ const context={accuracyEntry:false,matchingPatient:undefined,patientKey:r=>r.name.trim().toLowerCase()+"|"+r.dob,form:{...original},patients:[],message:'',busy:false,call:async(url,body)=>{const r=await intake.POST(request(body));const d=await r.json();if(!r.ok)throw new Error(d.error);return d;},setBusy:v=>context.busy=v,setMessage:v=>context.message=v,setPatients:f=>context.patients=f(context.patients),setPatient:()=>{},setPortalPatient:()=>{},setForm:v=>context.form=v,setTab:()=>{}};
  vm.createContext(context);vm.runInContext(ts.transpileModule(handler,{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText,context);
  await context.savePatient();assert.equal(context.patients.length,1);const saved=JSON.parse(JSON.stringify(context.patients[0]));
  await context.savePatient();assert.equal(context.message,'Duplicate patient record already exists.');assert.equal(context.patients.length,1);
