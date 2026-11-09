@@ -6,7 +6,7 @@ const path=require('node:path');
 const vm=require('node:vm');
 const {DatabaseSync}=require('node:sqlite');
 const ts=require('typescript');
-const root=process.cwd(),dir=fs.mkdtempSync('/tmp/clinic-duplicate-test-');
+const root=process.cwd(),dir=fs.mkdtempSync(path.join(require('node:os').tmpdir(),'clinic-duplicate-test-'));
 let sqlite=new DatabaseSync(path.join(dir,'clinic.sqlite'));
 for(const file of fs.readdirSync('drizzle').filter(f=>f.endsWith('.sql')).sort())sqlite.exec(fs.readFileSync('drizzle/'+file,'utf8'));
 const DB={prepare(sql){let args=[];return {bind(...values){args=values;return this},async all(){return {results:sqlite.prepare(sql).all(...args)}},async first(){return sqlite.prepare(sql).get(...args)||null},async run(){const r=sqlite.prepare(sql).run(...args);return {meta:{changes:Number(r.changes)},results:[]}}}},async batch(statements){sqlite.exec('BEGIN');try{const out=[];for(const s of statements){out.push(await s.all().then(r=>({...r,meta:{changes:sqlite.prepare('SELECT changes() AS n').get().n}})))}sqlite.exec('COMMIT');return out}catch(e){sqlite.exec('ROLLBACK');throw e}}};
