@@ -48,7 +48,7 @@
 
 ## Demo access / credentials
 
-This GitHub Pages classroom demo does **not** use a username/password login. The browser generates and stores a random workspace key in localStorage to keep the demo workspace scoped to that browser profile. Keep using the same browser profile for the same demo records. Do not add API keys, passwords, tokens, or real patient information to this repository. Use fictional data only.
+This GitHub Pages classroom demo does **not** use a username/password login. The browser generates and stores a random workspace key in localStorage to keep the demo workspace scoped to that browser profile. Keep using the same browser profile for the same demo records. Do not add API keys, passwords, tokens, or real patient information to this repository. fictional data only.
 
 ## Automated test
 
@@ -57,5 +57,3 @@ The repository includes `scripts/test-patient-edit.cjs`, which exercises the pat
 ```bash
 node scripts/test-patient-edit.cjs
 ```
-
-The existing `package.json` test script also invokes this test as part of `test:card-989`. Coordinate with the team before changing shared scripts or deploying backend changes.
