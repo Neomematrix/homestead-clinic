@@ -1,15 +1,8 @@
 # Card #998 — Test Editing Existing Patient Records
 
 **Owner:** Elijah Sterling  
-**User story:** As a clinic staff member, I can edit an existing patient's information and verify that the changes are saved correctly.
-
-## Scope
-
-Test the existing patient-edit workflow in the Homestead Clinic classroom demo. The application already provides the Edit patient action, the patient editor form, and the `POST /api/patient-intake` update mode.
 
 ## Test data (fictional only)
-
-Use this synthetic patient when creating a disposable test profile in the demo:
 
 | Field | Original value |
 |---|---|
@@ -23,7 +16,6 @@ Use this synthetic patient when creating a disposable test profile in the demo:
 | Insurance | Demo coverage |
 | Medical needs | Routine visit |
 
-Edit these fields to verify persistence:
 
 | Field | Updated value |
 |---|---|
