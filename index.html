@@ -1,6 +1,26 @@
 <!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Homestead Clinic</title><meta name="description" content="Fictional clinic intake and vaccination record accuracy demonstration."><link rel="icon" href="/homestead-clinic/favicon.svg?v=2">  <script type="module" crossorigin src="/homestead-clinic/assets/index-DJqh-2a5.js"></script>
   <link rel="stylesheet" crossorigin href="/homestead-clinic/assets/index-zX2DacBT.css">
-</head><body><div id="root"></div>
+<style id="clinic-layout-repair">
+/* Responsive, non-overlapping controls. Fixes nested combobox input padding and heights. */
+.app .stepped-intake, .app .stepped-intake fieldset, .app .stepped-intake .form-grid{min-width:0;max-width:100%}
+.app .stepped-intake .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 24px;align-items:start}
+.app .stepped-intake .form-grid>*,.app .stepped-intake .form-grid>div,.app .stepped-intake .form-grid>label{min-width:0;width:100%;max-width:100%}
+.app .stepped-intake label,.app .stepped-intake #vaccine-label,.app .stepped-intake #state-label,.app .stepped-intake #insurance-label{display:block;font-size:14px;line-height:1.45;margin:0 0 7px;color:#244765;font-weight:600}
+.app .stepped-intake :is(input:not([data-slot="input-group-control"]),textarea,.insurance-trigger,[data-slot="select-trigger"]){box-sizing:border-box;max-width:100%;width:100%;min-height:48px;height:auto;margin:0;border-radius:11px;font-size:15px;line-height:1.4}
+.app .stepped-intake [data-slot="input-group"].vaccine-input,
+.app .stepped-intake .vaccine-input[data-slot="input-group"],
+.app .stepped-intake .patient-type [data-slot="input-group"]{box-sizing:border-box!important;display:flex!important;align-items:center!important;width:100%!important;max-width:100%!important;min-width:0!important;height:50px!important;min-height:50px!important;padding:0 5px 0 0!important;margin:0!important;border:1px solid #cadbe9!important;border-radius:11px!important;background:#fff!important;overflow:hidden!important}
+.app .stepped-intake [data-slot="input-group"] input[data-slot="input-group-control"]{display:block!important;flex:1 1 0%!important;min-width:0!important;width:100%!important;height:46px!important;min-height:0!important;max-height:46px!important;margin:0!important;padding:0 12px!important;border:0!important;border-radius:0!important;box-shadow:none!important;outline:0!important;background:transparent!important;font-size:15px!important;line-height:46px!important}
+.app .stepped-intake [data-slot="input-group"] [data-slot="input-group-addon"]{flex:0 0 auto!important;align-self:center!important;display:flex!important;align-items:center!important;margin:0!important;padding:0 5px!important;max-height:46px!important}
+.app .stepped-intake [data-slot="input-group"] [data-slot="combobox-trigger"]{display:grid!important;place-items:center!important;width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}
+.app .stepped-intake [data-slot="input-group"]:focus-within{border-color:#3977ae!important;box-shadow:0 0 0 3px rgba(57,119,174,.14)!important;outline:2px solid transparent!important}
+.app .stepped-intake .form-grid small,.app .stepped-intake .form-grid>div>small,.app .stepped-intake .patient-type small{display:block;max-width:100%;margin:7px 0 0!important;font-size:12px!important;line-height:1.5!important;color:#60788d;overflow-wrap:break-word}
+.app .stepped-intake .form-grid .manufacturer-auto,.app .stepped-intake .form-grid .manufacturer-auto-live{min-width:0;max-width:100%;word-break:break-word}
+.app .stepped-intake .intake-progress{flex-wrap:wrap;row-gap:9px}
+.catalog-popup[data-slot="combobox-content"],.patient-search-popup[data-slot="combobox-content"]{max-width:min(540px,calc(100vw - 30px))!important;overflow-x:hidden!important}
+.catalog-popup [data-slot="combobox-item"],.patient-search-popup [data-slot="combobox-item"]{font-size:14px!important;line-height:1.4!important;white-space:normal!important;overflow-wrap:anywhere;padding:10px 32px 10px 12px!important}
+@media(max-width:720px){.app .stepped-intake .form-grid{grid-template-columns:minmax(0,1fr)!important;gap:16px}.app .stepped-intake .form-footer,.app .stepped-intake .intake-step-actions{flex-wrap:wrap;gap:12px}.app .stepped-intake .intake-step-actions>div{flex-wrap:wrap;width:100%}.app .stepped-intake .intake-step-actions button{flex:1 1 150px}}
+</style></head><body><div id="root"></div>
 <style id="clinic-feature-hotfix">
 .care-organized .care-detail{display:none!important}
 .care-feature-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:8px}
