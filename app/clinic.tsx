@@ -19,6 +19,30 @@ import {Select,SelectTrigger,SelectValue,SelectContent,SelectItem} from "@/compo
 const empty={patientId:"",name:"",firstName:"",lastName:"",gender:"",otherInsurance:"",dob:"",homeAddress:"",phone:"",email:"",needs:"",vaccine:"",date:"2026-10-05",dose:"1",provider:"",description:"",lotNumber:"",manufacturer:"",location:"",city:"",state:"",cost:"",insurance:""};
 async function call(url:string,body?:unknown){const r=await clinicFetch(url,body===undefined?{cache:"no-store"}:{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});const d:any=await r.json();if(!r.ok){const e:any=new Error(d.error||"Please try again");e.code=d.code;throw e;}return d;}
 export default function Clinic(){const [rows,setRows]=useState<any[]>([]),[patients,setPatients]=useState<any[]>([]),[report,setReport]=useState<any>(null),[form,setForm]=useState(empty),[busy,setBusy]=useState(false),[message,setMessage]=useState(""),[patient,setPatient]=useState(""),[portalPatient,setPortalPatient]=useState(""),[exporting,setExporting]=useState(false),[tab,setTab]=useState("home"),[loaded,setLoaded]=useState(false);
+// Keep in-app navigation synchronized with the browser Back and Forward buttons.
+const restoringHistory=useRef(false);
+const historyReady=useRef(false);
+useEffect(()=>{
+ const onPopState=(event:PopStateEvent)=>{
+  restoringHistory.current=true;
+  setTab(typeof event.state?.clinicTab==="string"?event.state.clinicTab:"home");
+  setEditingPatient(null);
+  setAccuracyEntry(false);
+  window.scrollTo({top:0,behavior:"instant"});
+ };
+ window.addEventListener("popstate",onPopState);
+ return ()=>window.removeEventListener("popstate",onPopState);
+},[]);
+useEffect(()=>{
+ if(!historyReady.current){
+  historyReady.current=true;
+  window.history.replaceState({...window.history.state,clinicTab:tab},"",window.location.href);
+ }else if(restoringHistory.current){
+  restoringHistory.current=false;
+ }else if(window.history.state?.clinicTab!==tab){
+  window.history.pushState({...window.history.state,clinicTab:tab},"",window.location.href);
+ }
+},[tab]);
 const [intakeStep,setIntakeStep]=useState(1);
 const [accuracyRecords,setAccuracyRecords]=useState<any[]>([]),[accuracyEntry,setAccuracyEntry]=useState(false);
 useEffect(()=>{setIntakeStep(1);},[tab,accuracyEntry]);
