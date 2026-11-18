@@ -105,3 +105,9 @@
 .catalog-popup[data-slot="combobox-content"],.patient-search-popup[data-slot="combobox-content"]{max-width:min(540px,calc(100vw - 30px))!important;overflow-x:hidden!important}
 .catalog-popup [data-slot="combobox-item"],.patient-search-popup [data-slot="combobox-item"]{font-size:14px!important;line-height:1.4!important;white-space:normal!important;overflow-wrap:anywhere;padding:10px 32px 10px 12px!important}
 @media(max-width:720px){.app .stepped-intake .form-grid{grid-template-columns:minmax(0,1fr)!important;gap:16px}.app .stepped-intake .form-footer,.app .stepped-intake .intake-step-actions{flex-wrap:wrap;gap:12px}.app .stepped-intake .intake-step-actions>div{flex-wrap:wrap;width:100%}.app .stepped-intake .intake-step-actions button{flex:1 1 150px}}
+
+
+/* New-patient intake never displays the patient directory */
+.workspace-intake .patient-type.intake-context,.workspace-intake .patient-type.intake-context-live{display:flex;flex-direction:column;gap:6px;max-width:none;padding:18px 22px;border:1px solid #d8e7f2;border-radius:15px;background:#f2f8fc;color:#183d61}
+.workspace-intake .patient-type.intake-context strong,.workspace-intake .patient-type.intake-context-live strong{font-size:16px;line-height:1.4}
+.workspace-intake .patient-type.intake-context small,.workspace-intake .patient-type.intake-context-live small{font-size:13px;line-height:1.5;margin:0;color:#5a7085}
