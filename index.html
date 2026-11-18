@@ -1,3 +1,43 @@
 <!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Homestead Clinic</title><meta name="description" content="Fictional clinic intake and vaccination record accuracy demonstration."><link rel="icon" href="/homestead-clinic/favicon.svg?v=2">  <script type="module" crossorigin src="/homestead-clinic/assets/index-DJqh-2a5.js"></script>
   <link rel="stylesheet" crossorigin href="/homestead-clinic/assets/index-zX2DacBT.css">
-</head><body><div id="root"></div></body></html>
+</head><body><div id="root"></div>
+<style id="clinic-feature-hotfix">
+.care-organized .care-detail{display:none!important}
+.care-feature-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:8px}
+.care-feature-card{position:relative;min-width:0;overflow:hidden;padding:28px;border:1px solid #fff;border-radius:26px;background:linear-gradient(155deg,#fff 0%,#f8fbff 60%,#eef3f9 100%);box-shadow:0 16px 42px #143d6818,inset 0 1px #fff;transition:transform .25s ease,box-shadow .25s ease}
+.care-feature-card:hover{transform:translateY(-4px);box-shadow:0 23px 54px #143d6824,inset 0 1px #fff}
+.care-feature-head{display:flex;align-items:flex-start;gap:18px}
+.care-feature-symbol{flex:0 0 72px;width:72px;height:72px;border-radius:20px;display:grid;place-items:center;color:#0b2e55;background:linear-gradient(140deg,#fffaf0,#efe9df);box-shadow:0 8px 20px #143d6817,inset 0 1px #fff}
+.care-feature-symbol svg{height:42px;width:42px}
+.care-feature-head h3{font-size:clamp(19px,2vw,26px);line-height:1.18;margin:3px 0 9px;color:#102f51;letter-spacing:-.5px}
+.care-feature-head p{font-size:15px;line-height:1.55;margin:0;color:#5a718a;max-width:340px}
+.care-feature-preview{position:relative;max-width:390px;margin:26px auto -55px;padding:22px 26px 48px;min-height:167px;border:1px solid white;border-radius:22px;background:linear-gradient(170deg,#fff,#e9f0f8);box-shadow:0 16px 27px #153e6819;transform:perspective(800px) rotateX(8deg) rotateZ(-3deg)}
+.care-preview-label{display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:700;color:#0b2e55;margin-bottom:19px}
+.care-preview-label span{display:grid;place-items:center;background:#fff;border-radius:10px;width:33px;height:33px;box-shadow:0 4px 10px #153e681a;font-size:21px}
+.care-preview-progress{display:flex;gap:10px;margin-bottom:19px}
+.care-preview-progress i{width:14px;height:14px;border-radius:50%;background:#cad5e1}.care-preview-progress i:first-child{background:#d5a334}
+.care-preview-field{height:14px;background:#d3deea;border-radius:12px;margin:11px 0;width:94%}.care-preview-field.short{width:62%}
+.care-feature-preview.records{transform:perspective(800px) rotateX(8deg) rotateZ(3deg)}
+.care-preview-record{display:flex;align-items:center;gap:12px}.care-preview-record i{width:18px;height:18px;flex-shrink:0;border-radius:50%;background:#a7ceb6}.care-preview-record .care-preview-field{margin:9px 0}
+@media(max-width:620px){.care-feature-grid{grid-template-columns:1fr;gap:18px}.care-feature-card{padding:22px;border-radius:22px}.care-feature-symbol{width:60px;height:60px;flex-basis:60px}.care-feature-head{gap:14px}.care-feature-head h3{font-size:20px}.care-feature-head p{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.care-feature-card{transition:none}.care-feature-card:hover{transform:none}}
+</style>
+<script>
+(function(){
+  function upgrade(){
+    const section=document.querySelector('.care-organized');
+    if(!section || section.querySelector('.care-feature-grid'))return;
+    const old=section.querySelectorAll('.care-detail');
+    if(old.length<2)return;
+    const grid=document.createElement('div');
+    grid.className='care-feature-grid';
+    grid.setAttribute('aria-label','Clinic tools');
+    grid.innerHTML=`<article class="care-feature-card"><div class="care-feature-head"><div class="care-feature-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="10" y="8" width="28" height="34" rx="5" stroke="currentColor" stroke-width="2.5"/><rect x="18" y="4" width="12" height="8" rx="3" fill="#f3d48e" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="21" r="4" stroke="currentColor" stroke-width="2"/><path d="M17 32c0-7 14-7 14 0M17 37h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div><h3>Patient intake, made simple</h3><p>Get started with a guided form that keeps patient details organized.</p></div></div><div class="care-feature-preview" aria-hidden="true"><div class="care-preview-label">Patient intake</div><div class="care-preview-progress"><i></i><i></i><i></i></div><div class="care-preview-field"></div><div class="care-preview-field short"></div></div></article><article class="care-feature-card"><div class="care-feature-head"><div class="care-feature-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M6 14a5 5 0 0 1 5-5h9l5 5h12a5 5 0 0 1 5 5v19H6V14Z" stroke="currentColor" stroke-width="2.5"/><path d="M24 21v12M18 27h12" stroke="#d5a334" stroke-width="3.5" stroke-linecap="round"/></svg></div><div><h3>Records at your fingertips</h3><p>Find vaccination history and access records whenever you need them.</p></div></div><div class="care-feature-preview records" aria-hidden="true"><div class="care-preview-label">Vaccination history <span>↓</span></div><div class="care-preview-record"><i></i><div class="care-preview-field"></div></div><div class="care-preview-record"><i></i><div class="care-preview-field short"></div></div></div></article>`;
+    old.forEach(n=>n.remove());
+    section.appendChild(grid);
+  }
+  document.addEventListener('DOMContentLoaded',upgrade);
+  new MutationObserver(upgrade).observe(document.documentElement,{childList:true,subtree:true});
+  upgrade();
+})();
+</script></body></html>
