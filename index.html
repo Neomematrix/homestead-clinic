@@ -20,6 +20,12 @@
 .catalog-popup[data-slot="combobox-content"],.patient-search-popup[data-slot="combobox-content"]{max-width:min(540px,calc(100vw - 30px))!important;overflow-x:hidden!important}
 .catalog-popup [data-slot="combobox-item"],.patient-search-popup [data-slot="combobox-item"]{font-size:14px!important;line-height:1.4!important;white-space:normal!important;overflow-wrap:anywhere;padding:10px 32px 10px 12px!important}
 @media(max-width:720px){.app .stepped-intake .form-grid{grid-template-columns:minmax(0,1fr)!important;gap:16px}.app .stepped-intake .form-footer,.app .stepped-intake .intake-step-actions{flex-wrap:wrap;gap:12px}.app .stepped-intake .intake-step-actions>div{flex-wrap:wrap;width:100%}.app .stepped-intake .intake-step-actions button{flex:1 1 150px}}
+</style><style id="clinic-new-patient-live-visibility">
+/* Hide the older compiled patient's chooser without changing React-owned nodes. */
+.workspace-intake .stepped-intake .patient-type:not(.intake-context)>*{display:none!important}
+.workspace-intake .stepped-intake .patient-type:not(.intake-context){max-width:none!important;min-height:84px!important;position:relative;padding:18px 22px!important;margin-bottom:18px!important;border:1px solid #d8e7f2!important;border-radius:15px!important;background:#f2f8fc!important}
+.workspace-intake .stepped-intake .patient-type:not(.intake-context)::before{content:"Creating a new patient";display:block;font-size:16px;font-weight:700;color:#183d61;line-height:1.45}
+.workspace-intake .stepped-intake .patient-type:not(.intake-context)::after{content:"Enter patient details below. A unique ID will be generated automatically when saved.";display:block;font-size:13px;color:#5a7085;line-height:1.5;margin-top:5px}
 </style></head><body><div id="root"></div>
 <style id="clinic-feature-hotfix">
 .care-organized .care-detail{display:none!important}
@@ -310,24 +316,4 @@
 .workspace-intake .patient-type.intake-context strong,.workspace-intake .patient-type.intake-context-live strong{font-size:16px;line-height:1.4}
 .workspace-intake .patient-type.intake-context small,.workspace-intake .patient-type.intake-context-live small{font-size:13px;line-height:1.5;margin:0;color:#5a7085}
 </style>
-<script id="clinic-new-patient-intake">
-(function(){
- function simplify(){
-  const panel=document.querySelector(".workspace-intake .stepped-intake .patient-type");
-  if(!panel||panel.classList.contains("intake-context")||panel.classList.contains("intake-context-live"))return;
-  // Keep the original selection behavior available in staff records, never in the new-patient form.
-  const selectedText=panel.querySelector("input")?.value||"";
-  const existing=!/^New patient/i.test(selectedText)&&selectedText.trim().length>0;
-  panel.classList.add("intake-context-live");
-  panel.replaceChildren();
-  const title=document.createElement("strong");title.textContent=existing?"Adding to an existing patient record":"Creating a new patient";
-  const note=document.createElement("small");note.textContent=existing?"Existing patient details were selected previously. Return to Staff records for patient management.":"Enter the new patient's information below. A unique patient ID will be generated when saved.";
-  panel.append(title,note);
- }
- document.addEventListener("DOMContentLoaded",()=>{
-  simplify();
-  const root=document.getElementById("root");
-  if(root)new MutationObserver(simplify).observe(root,{subtree:true,childList:true});
- });
-})();
-</script></body></html>
+</body></html>
