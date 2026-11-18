@@ -40,4 +40,40 @@
   new MutationObserver(upgrade).observe(document.documentElement,{childList:true,subtree:true});
   upgrade();
 })();
+</script><script id="clinic-browser-history-fix">
+(function(){
+  let current="home", ready=false, restoring=false;
+  const targets={home:".hospital-brand",intake:"#hospital-navigation button:nth-child(1)",patient:"#hospital-navigation button:nth-child(2)",details:"#hospital-navigation button:nth-child(3)",records:"#hospital-navigation button:nth-child(4)",accuracy:"#hospital-navigation button:nth-child(5)"};
+  function readTab(){
+    const root=document.querySelector(".app");
+    const name=root && Array.from(root.classList).find(c=>c.startsWith("workspace-"));
+    return name?name.slice(10):null;
+  }
+  function sync(){
+    const next=readTab();
+    if(!next)return;
+    if(!ready){
+      ready=true;current=next;
+      history.replaceState({...history.state,clinicTab:next},"",location.href);
+      return;
+    }
+    if(next===current)return;
+    current=next;
+    if(!restoring)history.pushState({...history.state,clinicTab:next},"",location.href);
+  }
+  window.addEventListener("popstate",function(e){
+    const target=e.state&&typeof e.state.clinicTab==="string"?e.state.clinicTab:"home";
+    const button=document.querySelector(targets[target]||targets.home);
+    if(button){
+      restoring=true;
+      current=target;
+      button.click();
+      setTimeout(function(){restoring=false;sync();},0);
+    }
+  });
+  document.addEventListener("DOMContentLoaded",function(){
+    new MutationObserver(sync).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:["class"]});
+    sync();
+  });
+})();
 </script></body></html>
