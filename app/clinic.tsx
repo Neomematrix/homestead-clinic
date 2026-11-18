@@ -97,7 +97,7 @@ function insurancePicker(){return <><label id="insurance-label">Insurance</label
 function vaccinePicker(){return <div><label id="vaccine-label">Vaccine name</label><Combobox items={vaccines} value={vaccines.includes(form.vaccine)?form.vaccine:null} inputValue={form.vaccine} onInputValueChange={v=>setForm(prev=>({...prev,vaccine:v}))} onValueChange={v=>{if(v)setForm(prev=>({...prev,vaccine:v}));}}><ComboboxInput aria-labelledby="vaccine-label" placeholder="Start typing a vaccine name" required className="vaccine-input"/><ComboboxContent className="catalog-popup"><ComboboxEmpty>No matching vaccine. You can enter a name manually.</ComboboxEmpty><ComboboxList>{(item:string)=><ComboboxItem key={item} value={item}>{item}</ComboboxItem>}</ComboboxList></ComboboxContent></Combobox><small>Names from your supplied FDA list. Lot number and manufacturer are entered separately.</small></div>;}
 function patientSearch(selected:string,onSelect:(id:string)=>void,allowNew=false,showSelection=true){
 
-const options=patients.map((r:any)=>({id:r.patientId,label:r.name+" · DOB: "+r.dob+" · "+r.patientId}));
+const options=patients.map((r:any)=>({id:r.patientId,label:r.name+" · DOB: "+r.dob}));
 if(allowNew)options.unshift({id:"new",label:"New patient · generate unique ID"});
 const selectedLabel=options.find(o=>o.id===(selected||(allowNew?"new":"")))?.label||null;
 const labelId=allowNew?"intake-patient-search":"history-patient-search";
