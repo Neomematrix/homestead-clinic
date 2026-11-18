@@ -342,4 +342,34 @@
   if(root)new MutationObserver(ensureHomeButton).observe(root,{childList:true,subtree:true});
  });
 })();
-</script></body></html>
+</script>
+<style id="clinic-building-showcase-live">
+.clinic-building-feature{max-width:1340px;margin:38px auto 10px;padding:0 4.5%;display:grid;grid-template-columns:1fr 1.55fr;align-items:stretch}
+.clinic-building-copy{background:#0b2e55;color:white;padding:34px 38px;display:flex;flex-direction:column;justify-content:center;border-radius:22px 0 0 22px}
+.clinic-building-copy .care-eyebrow{color:#f4c15c;font-size:11px;margin-bottom:17px}
+.clinic-building-copy h2{font-size:clamp(27px,3vw,42px);line-height:1.13;letter-spacing:-1px;margin:0 0 16px;color:#fff}
+.clinic-building-copy p{font-size:16px;line-height:1.6;color:#dce7f2;margin:0 0 24px;max-width:330px}
+.clinic-building-copy small{font-size:11px;color:#b6cbe0}
+.clinic-building-feature>img{width:100%;height:335px;object-fit:cover;object-position:center;border-radius:0 22px 22px 0;background:#dce9f2}
+@media(max-width:780px){.clinic-building-feature{grid-template-columns:1fr;margin-top:25px}.clinic-building-copy{padding:27px;border-radius:20px 20px 0 0}.clinic-building-feature>img{height:auto;aspect-ratio:2/1;border-radius:0 0 20px 20px}}
+</style>
+<script id="clinic-building-showcase-published">
+(function(){
+function show(){
+ const home=document.querySelector(".hospital-home"), services=home&&home.querySelector(".care-services");
+ if(!services||home.querySelector(".clinic-building-feature"))return;
+ const section=document.createElement("section");
+ section.className="clinic-building-feature";section.setAttribute("aria-label","Homestead Clinic building concept");
+ const copy=document.createElement("div");copy.className="clinic-building-copy";
+ const eyebrow=document.createElement("span");eyebrow.className="care-eyebrow";eyebrow.textContent="WELCOME TO HOMESTEAD CLINIC";
+ const heading=document.createElement("h2");heading.textContent="Care begins with connection.";
+ const description=document.createElement("p");description.textContent="A welcoming space for organized, patient-focused care.";
+ const note=document.createElement("small");note.textContent="Illustrative building concept for this student project.";
+ copy.append(eyebrow,heading,description,note);
+ const image=document.createElement("img");image.src="/homestead-clinic/images/homestead-exterior-art.svg";image.alt="Concept illustration of a modern Homestead Clinic building";image.loading="lazy";
+ section.append(copy,image);services.before(section);
+}
+document.addEventListener("DOMContentLoaded",function(){show();const root=document.getElementById("root");if(root)new MutationObserver(show).observe(root,{childList:true,subtree:true})});
+})();
+</script>
+</body></html>
