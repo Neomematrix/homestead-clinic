@@ -122,3 +122,70 @@
 .clinic-building-copy small{font-size:11px;color:#b6cbe0}
 .clinic-building-feature>img{width:100%;height:335px;object-fit:cover;object-position:center;border-radius:0 22px 22px 0;background:#dce9f2}
 @media(max-width:780px){.clinic-building-feature{grid-template-columns:1fr;margin-top:25px}.clinic-building-copy{padding:27px;border-radius:20px 20px 0 0}.clinic-building-feature>img{height:auto;aspect-ratio:2/1;border-radius:0 0 20px 20px}}
+
+
+/* 2026-11-18: sharp, curved full-width clinic landing hero with live controls */
+.hospital-home .care-hero{
+  position:relative!important;isolation:isolate;display:grid!important;
+  grid-template-columns:minmax(0,65%) minmax(0,35%)!important;
+  min-height:610px!important;background:#082e56!important;overflow:hidden;
+}
+.hospital-home .care-hero .care-photo{
+  grid-column:1!important;grid-row:1!important;position:relative!important;
+  min-height:610px!important;z-index:0!important;overflow:hidden!important;
+}
+.hospital-home .care-hero .care-photo img{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  object-fit:cover!important;object-position:center center!important;
+  image-rendering:auto!important;filter:contrast(1.06) saturate(1.10)!important;
+}
+.hospital-home .care-hero .care-photo:after{background:linear-gradient(90deg,transparent 70%,rgba(5,34,67,.13))!important}
+.hospital-home .care-hero .care-photo>span{display:none!important}
+.hospital-home .care-hero .care-copy{
+  grid-column:2!important;grid-row:1!important;position:relative!important;
+  z-index:2!important;align-self:stretch!important;display:flex!important;
+  flex-direction:column!important;justify-content:center!important;
+  background:#082e56!important;padding:70px clamp(25px,3.5vw,70px) 85px 20px!important;
+  color:#fff!important;
+}
+.hospital-home .care-hero .care-copy:before{
+  content:"";position:absolute;z-index:-1;left:-145px;top:-22%;
+  width:270px;height:144%;border-left:9px solid #ffc43d;
+  border-radius:50%;background:#082e56;pointer-events:none;
+}
+.hospital-home .care-hero .care-copy .care-eyebrow{display:none!important}
+.hospital-home .care-hero .care-copy h1{
+  font-size:clamp(43px,4.35vw,79px)!important;line-height:1.05!important;
+  letter-spacing:-2px!important;margin:0 0 25px!important;color:white!important;
+  max-width:none!important;
+}
+.hospital-home .care-hero .care-description{
+  font-size:clamp(16px,1.45vw,22px)!important;line-height:1.46!important;
+  color:#e2eaf4!important;margin:0 0 34px!important;
+}
+.hospital-home .care-hero .care-actions{gap:14px!important;max-width:420px!important;width:100%!important}
+.hospital-home .care-hero .care-actions button{
+  width:100%!important;min-height:62px!important;font-size:17px!important;
+  border-radius:9px!important;
+}
+.hospital-home .care-hero .care-primary{background:#ffc43d!important;color:#0d3155!important}
+.hospital-home .care-hero .care-secondary{border:2px solid #fff!important}
+.hospital-home .care-hero:after{
+  content:"";position:absolute;z-index:4;pointer-events:none;bottom:0;left:0;right:0;
+  height:37px;background:linear-gradient(180deg,#fbc33f 0 28%,#0477c6 29% 52%,#082e56 53% 100%);
+  clip-path:polygon(0 34%,12% 65%,28% 83%,43% 70%,61% 37%,77% 9%,90% 0,100% 18%,100% 100%,0 100%);
+}
+@media(max-width:1100px) and (min-width:761px){
+  .hospital-home .care-hero{grid-template-columns:60% 40%!important}
+  .hospital-home .care-hero .care-copy{padding:48px 24px 62px 12px!important}
+  .hospital-home .care-hero .care-copy:before{left:-95px;width:180px}
+  .hospital-home .care-hero .care-copy h1{font-size:clamp(41px,4.6vw,61px)!important}
+}
+@media(max-width:760px){
+  .hospital-home .care-hero{display:flex!important;flex-direction:column!important;min-height:0!important}
+  .hospital-home .care-hero .care-photo{order:0;min-height:290px!important;height:clamp(290px,55vw,430px)!important}
+  .hospital-home .care-hero .care-copy{order:1;padding:32px 6% 65px!important}
+  .hospital-home .care-hero .care-copy:before{display:none!important}
+  .hospital-home .care-hero .care-copy h1{font-size:clamp(43px,9vw,62px)!important}
+  .hospital-home .care-hero .care-actions{max-width:420px!important}
+}
