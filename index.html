@@ -131,4 +131,24 @@
  document.addEventListener("DOMContentLoaded",()=>{apply();new MutationObserver(apply).observe(document.body,{childList:true,subtree:true})});
 })();
 </script>
-</body></html>
+<script id="clinic-friendly-patient-labels">
+(function(){
+ const shorten=function(value){return value.replace(/\s*·\s*PAT-[a-zA-Z0-9-]+/g,"")};
+ let queued=false;
+ function update(){
+  queued=false;
+  document.querySelectorAll(".patient-search-popup [role='option'],.patient-search-popup [data-slot='combobox-item']").forEach(function(el){
+    const text=el.textContent||"";
+    if(!/PAT-[a-zA-Z0-9-]+/.test(text))return;
+    const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+    let node;
+    while((node=walker.nextNode())){if(/PAT-[a-zA-Z0-9-]+/.test(node.nodeValue||""))node.nodeValue=shorten(node.nodeValue)}
+  });
+  document.querySelectorAll(".patient-type input.vaccine-input,.profile-search input.vaccine-input").forEach(function(input){
+    if(/PAT-[a-zA-Z0-9-]+/.test(input.value))input.value=shorten(input.value);
+  });
+ }
+ function schedule(){if(!queued){queued=true;requestAnimationFrame(update)}}
+ document.addEventListener("DOMContentLoaded",function(){new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,characterData:true});schedule()});
+})();
+</script></body></html>
