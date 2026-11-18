@@ -76,4 +76,40 @@
     sync();
   });
 })();
-</script></body></html>
+</script>
+<style id="clinic-intake-modernization">
+/* Simplify duplicate main navigation while leaving workspace tabs available */
+.hospital-header nav button:nth-child(3),.hospital-header nav button:nth-child(4),.hospital-header nav button:nth-child(5){display:none!important}
+.hospital-header nav{gap:10px}.hospital-header nav button{font-size:14px;border-radius:9px;padding:12px 16px}.hospital-header nav .staff-link{border-left:1px solid #7590ad;margin-left:12px;padding-left:24px}
+.workspace-intake .content{max-width:1180px}.workspace-intake .panel{border-radius:22px;overflow:hidden;box-shadow:0 15px 44px rgba(11,46,85,.06)}
+.workspace-intake .panel-head{padding:26px 32px;background:#fff}
+.workspace-intake .intake-progress{padding:19px 32px;background:#edf4fa;border-top:1px solid #e1eaf3;border-bottom:1px solid #e1eaf3}
+.workspace-intake .stepped-intake{padding:28px 32px}
+.workspace-intake .stepped-intake fieldset{border:0;margin:0;padding:0;min-width:0}
+.workspace-intake .stepped-intake .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:23px 26px;margin:22px 0}
+.workspace-intake .stepped-intake input,.workspace-intake .stepped-intake textarea,.workspace-intake .stepped-intake .insurance-trigger{border-radius:11px;background:#fdfefe;min-height:51px}
+.workspace-intake .stepped-intake label{font-size:14px;line-height:1.6;color:#274864;font-weight:600}
+.workspace-intake .stepped-intake label input{margin-top:8px}
+.workspace-intake .patient-type{padding:20px 22px;background:#f5f9fc;border:1px solid #dde8f2;border-radius:16px}
+.workspace-intake .patient-type small{display:block;margin-top:10px;color:#647c91;line-height:1.55}
+.workspace-intake .intake-step-actions,.workspace-intake .form-footer{padding-top:22px;border-top:1px solid #e3ebf2}
+.workspace-intake .main-tabs{border-radius:13px;margin-bottom:22px}
+@media(max-width:700px){.workspace-intake .stepped-intake{padding:20px 17px}.workspace-intake .stepped-intake .form-grid{grid-template-columns:1fr;gap:16px}.workspace-intake .panel-head{padding:22px 18px}.workspace-intake .intake-progress{padding:17px 18px}.hospital-header nav .staff-link{padding-left:12px;margin-left:0}}
+</style>
+<script id="clinic-city-suggestions">
+(function(){
+ const cities=["Atlanta","Alpharetta","Athens","Augusta","Ball Ground","Canton","Columbus","Cumming","Dallas","Decatur","Gainesville","Kennesaw","Marietta","Powder Springs","Roswell","Sandy Springs","Savannah","Smyrna","Woodstock","Miami","Homestead","Hialeah","Doral","Miami Beach","Fort Lauderdale","Hollywood","Pembroke Pines","Orlando","Tampa","Jacksonville","Tallahassee","West Palm Beach","Boca Raton","Naples","Fort Myers","New York","Los Angeles","Chicago","Houston","Phoenix","Philadelphia","San Antonio","San Diego","Austin","Charlotte","Nashville","Washington","Seattle","Boston","Denver","San Francisco","Las Vegas","Detroit","Portland","Baltimore","New Orleans"];
+ function apply(){
+  if(!document.body)return;
+  let list=document.getElementById("clinic-city-options-live");
+  if(!list){list=document.createElement("datalist");list.id="clinic-city-options-live";cities.forEach(name=>{let option=document.createElement("option");option.value=name;list.appendChild(option)});document.body.appendChild(list)}
+  document.querySelectorAll(".stepped-intake label").forEach(label=>{
+   if(!/Administration city/i.test(label.textContent||""))return;
+   const input=label.querySelector("input");
+   if(input&&input.getAttribute("list")!=="clinic-city-options-live"){input.setAttribute("list","clinic-city-options-live");input.setAttribute("placeholder","Start typing a city");input.setAttribute("autocomplete","address-level2")}
+  });
+ }
+ document.addEventListener("DOMContentLoaded",()=>{apply();new MutationObserver(apply).observe(document.body,{childList:true,subtree:true})});
+})();
+</script>
+</body></html>
