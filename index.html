@@ -361,9 +361,12 @@
   const photo=document.querySelector(".hospital-home .care-hero .care-photo");
   if(!photo)return;
   const picture=photo.querySelector("img");
-  if(picture&&picture.getAttribute("src")!=="/homestead-clinic/images/homestead-exterior-art.svg"){
-   picture.setAttribute("src","/homestead-clinic/images/homestead-exterior-art.svg");
-   picture.setAttribute("alt","Illustrated exterior concept for Homestead Clinic");
+  if(picture&&!picture.dataset.clinicPhotoReady){
+   picture.dataset.clinicPhotoReady="1";
+   const photo=new Image();
+   photo.onload=function(){if(picture.isConnected){picture.src="/homestead-clinic/images/homestead-building.jpg";picture.alt="Homestead Clinic building concept";}};
+   photo.onerror=function(){if(picture.isConnected){picture.src="/homestead-clinic/images/homestead-exterior-art.svg";picture.alt="Illustrated exterior concept for Homestead Clinic";}};
+   photo.src="/homestead-clinic/images/homestead-building.jpg";
   }
   const caption=photo.querySelector("span");
   if(caption&&caption.textContent!=="Homestead Clinic · Illustrative building concept")
