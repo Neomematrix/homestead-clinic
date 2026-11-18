@@ -78,6 +78,25 @@
 })();
 </script>
 <style id="clinic-intake-modernization">
+/* Compact feature panels; preserve separation from footer */
+.care-organized{padding-bottom:88px!important;row-gap:28px!important}
+.care-feature-grid{width:100%;max-width:1060px;margin:8px auto 0!important;gap:22px!important;align-items:stretch}
+.care-feature-card{padding:22px 24px!important;border-radius:22px!important;min-height:0!important;box-shadow:0 10px 28px #143d6814!important}
+.care-feature-head{gap:14px!important;align-items:center!important}
+.care-feature-symbol{width:56px!important;height:56px!important;flex-basis:56px!important;border-radius:16px!important}
+.care-feature-symbol svg{width:32px!important;height:32px!important}
+.care-feature-head h3{font-size:clamp(17px,1.5vw,22px)!important;line-height:1.2!important;margin:0 0 5px!important}
+.care-feature-head p{font-size:13px!important;line-height:1.45!important}
+.care-feature-preview{min-height:100px!important;max-width:330px!important;padding:14px 18px 12px!important;margin:16px auto 0!important;border-radius:16px!important;transform:rotate(-2deg)!important}
+.care-feature-preview.records{transform:rotate(2deg)!important}
+.care-preview-label{font-size:13px!important;margin-bottom:8px!important}
+.care-preview-label span{height:25px!important;width:25px!important;font-size:15px!important}
+.care-preview-progress{gap:7px!important;margin-bottom:8px!important}
+.care-preview-progress i{height:10px!important;width:10px!important}
+.care-preview-field{height:9px!important;margin:8px 0!important}
+.care-preview-record i{height:12px!important;width:12px!important}
+@media(max-width:620px){.care-organized{padding-bottom:70px!important}.care-feature-grid{grid-template-columns:1fr!important;gap:16px!important}.care-feature-card{padding:20px!important}.care-feature-preview{margin-top:14px!important}}
+
 /* Simplify duplicate main navigation while leaving workspace tabs available */
 .hospital-header nav button:not(.staff-link):nth-child(3),.hospital-header nav button:not(.staff-link):nth-child(4),.hospital-header nav button:not(.staff-link):nth-child(5){display:none!important}
 .hospital-header nav{gap:10px}.hospital-header nav button{font-size:14px;border-radius:9px;padding:12px 16px}.hospital-header nav .staff-link{border-left:1px solid #7590ad;margin-left:12px;padding-left:24px}
