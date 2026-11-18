@@ -111,3 +111,14 @@
 .workspace-intake .patient-type.intake-context,.workspace-intake .patient-type.intake-context-live{display:flex;flex-direction:column;gap:6px;max-width:none;padding:18px 22px;border:1px solid #d8e7f2;border-radius:15px;background:#f2f8fc;color:#183d61}
 .workspace-intake .patient-type.intake-context strong,.workspace-intake .patient-type.intake-context-live strong{font-size:16px;line-height:1.4}
 .workspace-intake .patient-type.intake-context small,.workspace-intake .patient-type.intake-context-live small{font-size:13px;line-height:1.5;margin:0;color:#5a7085}
+
+
+/* Clinic building concept, distinct from the patient intake hero */
+.clinic-building-feature{max-width:1340px;margin:38px auto 10px;padding:0 4.5%;display:grid;grid-template-columns:1fr 1.55fr;gap:0;align-items:stretch}
+.clinic-building-copy{background:#0b2e55;color:white;padding:34px 38px;display:flex;flex-direction:column;justify-content:center;border-radius:22px 0 0 22px}
+.clinic-building-copy .care-eyebrow{color:#f4c15c;font-size:11px;margin-bottom:17px}
+.clinic-building-copy h2{font-size:clamp(27px,3vw,42px);line-height:1.13;letter-spacing:-1px;margin:0 0 16px;color:white}
+.clinic-building-copy p{font-size:16px;line-height:1.6;color:#dce7f2;margin:0 0 24px;max-width:330px}
+.clinic-building-copy small{font-size:11px;color:#b6cbe0}
+.clinic-building-feature>img{width:100%;height:335px;object-fit:cover;object-position:center;border-radius:0 22px 22px 0;background:#dce9f2}
+@media(max-width:780px){.clinic-building-feature{grid-template-columns:1fr;margin-top:25px}.clinic-building-copy{padding:27px;border-radius:20px 20px 0 0}.clinic-building-feature>img{height:auto;aspect-ratio:2/1;border-radius:0 0 20px 20px}}
