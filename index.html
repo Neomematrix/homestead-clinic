@@ -151,4 +151,137 @@
  function schedule(){if(!queued){queued=true;requestAnimationFrame(update)}}
  document.addEventListener("DOMContentLoaded",function(){new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,characterData:true});schedule()});
 })();
-</script></body></html>
+</script>
+<style id="clinic-manufacturer-automatic-style">
+.stepped-intake .manufacturer-auto-live{grid-column:auto;border:1px solid #d7e7ed;border-radius:11px;padding:10px 14px;background:#f1f9f8;min-height:51px;color:#234d56;line-height:1.35}
+.manufacturer-auto-live b{display:block;font-size:12px;opacity:.8;font-weight:600}.manufacturer-auto-live span{display:block;font-weight:700;margin-top:4px}
+.stepped-intake .manufacturer-hidden-live{display:none!important}
+</style>
+<script id="clinic-manufacturer-automatic">
+(function(){
+ const manufacturers={
+  "adenovirustype4andtype7vaccineliveoral":"Barr Labs Inc.",
+  "biothrax":"Emergent BioSolutions",
+  "cyfendus":"Emergent Product Development",
+  "ixchiq":"Valneva Austria GmbH",
+  "vimkunya":"Bavarian Nordic",
+  "vaxchora":"Bavarian Nordic",
+  "comirnaty":"Pfizer",
+  "spikevax":"ModernaTx",
+  "mnexspike":"ModernaTx",
+  "nuvaxovid":"Novavax, Inc.",
+  "dengvaxia":"Sanofi",
+  "daptacel":"Sanofi",
+  "infanrix":"GlaxoSmithKline",
+  "ervebo":"Merck",
+  "acthib":"Sanofi",
+  "hiberix":"GlaxoSmithKline",
+  "pedvaxhib":"Merck",
+  "havrix":"GlaxoSmithKline",
+  "vaqta":"Merck",
+  "engerixb":"GlaxoSmithKline",
+  "recombivaxhb":"Merck",
+  "heplisavb":"Dynavax Technologies",
+  "shingrix":"GlaxoSmithKline",
+  "gardasil9":"Merck",
+  "afluria":"Seqirus",
+  "fluad":"Seqirus",
+  "fluarix":"GlaxoSmithKline",
+  "flublok":"Sanofi",
+  "flucelvax":"Seqirus",
+  "flulaval":"GlaxoSmithKline",
+  "flumist":"Medimmune",
+  "fluzone":"Sanofi",
+  "fluzonehighdose":"Sanofi",
+  "ixiaro":"Valneva",
+  "mmrii":"Merck",
+  "priorix":"GlaxoSmithKline",
+  "menveo":"GlaxoSmithKline",
+  "menquadfi":"Sanofi",
+  "trumenba":"Pfizer",
+  "bexsero":"GlaxoSmithKline",
+  "penbraya":"Pfizer",
+  "penmenvy":"GlaxoSmithKline",
+  "jynneos":"Bavarian Nordic",
+  "pneumovax23":"Merck",
+  "prevnar20":"Pfizer",
+  "vaxneuvance":"Merck",
+  "capvaxive":"Merck",
+  "ipol":"Sanofi",
+  "imovaxrabies":"Sanofi",
+  "rabavert":"Bavarian Nordic",
+  "rotateq":"Merck",
+  "rotarix":"GlaxoSmithKline",
+  "abrysvo":"Pfizer",
+  "arexvy":"GlaxoSmithKline",
+  "mresvia":"Moderna",
+  "tenivac":"Sanofi",
+  "boostrix":"GlaxoSmithKline",
+  "adacel":"Sanofi",
+  "typhimvi":"Sanofi",
+  "vivotif":"Bavarian Nordic",
+  "varivax":"Merck",
+  "acam2000":"Sanofi",
+  "yfvax":"Sanofi",
+  "kinrix":"GlaxoSmithKline",
+  "quadracel":"Sanofi",
+  "pediarix":"GlaxoSmithKline",
+  "pentacel":"Sanofi",
+  "vaxelis":"Sanofi",
+  "twinrix":"GlaxoSmithKline",
+  "proquad":"Merck",
+};
+ const normalize=v=>String(v||"").trim().toLowerCase().replace(/[^a-z0-9]/g,"");
+ let inProgress=false;
+ function matchLabel(scope,text){
+  return Array.from(scope.querySelectorAll("label")).find(el=>{
+   const own=Array.from(el.childNodes).filter(x=>x.nodeType===Node.TEXT_NODE).map(x=>x.textContent).join("").trim();
+   return own.toLowerCase()===text.toLowerCase();
+  });
+ }
+ function apply(){
+  if(inProgress)return;
+  const form=document.querySelector(".stepped-intake");
+  if(!form)return;
+  const vaccine=document.querySelector(".stepped-intake #vaccine-label + * input")||document.querySelector(".stepped-intake input[placeholder='Start typing a vaccine name']");
+  const manufacturerLabel=matchLabel(form,"Manufacturer");
+  if(!vaccine||!manufacturerLabel)return;
+  const input=manufacturerLabel.querySelector("input");
+  if(!input)return;
+  const name=manufacturers[normalize(vaccine.value)]||"";
+  let info=form.querySelector(".manufacturer-auto-live");
+  if(name){
+   if(input.value!==name){
+    inProgress=true;
+    const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value").set;
+    setter.call(input,name);
+    input.dispatchEvent(new Event("input",{bubbles:true}));
+    input.dispatchEvent(new Event("change",{bubbles:true}));
+    inProgress=false;
+   }
+   manufacturerLabel.classList.add("manufacturer-hidden-live");
+   input.required=false;
+   if(!info){info=document.createElement("div");info.className="manufacturer-auto-live";manufacturerLabel.insertAdjacentElement("afterend",info)}
+   info.textContent="";
+   const title=document.createElement("b");title.textContent="Manufacturer (automatic)";
+   const value=document.createElement("span");value.textContent=name;
+   info.append(title,value);
+  }else{
+   manufacturerLabel.classList.remove("manufacturer-hidden-live");
+   input.required=true;
+   if(info)info.remove();
+  }
+ }
+ let scheduled=false;
+ function schedule(){if(!scheduled){scheduled=true;requestAnimationFrame(()=>{scheduled=false;apply()})}}
+ document.addEventListener("input",schedule,true);
+ document.addEventListener("change",schedule,true);
+ document.addEventListener("click",schedule,true);
+ document.addEventListener("DOMContentLoaded",()=>{
+  const root=document.getElementById("root");
+  if(root)new MutationObserver(schedule).observe(root,{childList:true,subtree:true});
+  schedule();
+ });
+})();
+</script>
+</body></html>
