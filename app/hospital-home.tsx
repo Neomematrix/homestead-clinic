@@ -4,7 +4,7 @@ type Navigation={onNavigate:(page:string)=>void};
 const image=(name:string)=>`${typeof window!=="undefined"&&window.location.pathname.startsWith("/homestead-clinic")?"/homestead-clinic/":"/"}images/${name}`;
 export function ClinicNavigation({active,onNavigate}:Navigation&{active:string}){
  const [open,setOpen]=useState(false);
- const links=[["intake","Patient intake"],["patient","Patient portal"],["details","Patient details"],["records","Vaccination records"],["accuracy","Record accuracy"]];
+ const links=[["intake","Patient intake"],["patient","Patient portal"]];
  function go(page:string){onNavigate(page);setOpen(false);}
  return <><a className="skip-link" href="#main-content">Skip to content</a><header className="hospital-header"><button className="hospital-brand" aria-label="Homestead Clinic home" onClick={()=>go("home")}><span className="hospital-mark" aria-hidden="true"><i/><i/><i/><i/></span><span>Homestead <strong>Clinic</strong></span></button><button className="menu-toggle" aria-expanded={open} aria-controls="hospital-navigation" onClick={()=>setOpen(!open)}>{open?"Close menu":"Menu"}</button><nav id="hospital-navigation" aria-label="Main navigation" className={open?"is-open":""}>{links.map(([page,label])=><button key={page} aria-current={active===page?"page":undefined} onClick={()=>go(page)}>{label}</button>)}<button className="staff-link" onClick={()=>go("records")}>Staff workspace</button></nav></header></>;
 }
