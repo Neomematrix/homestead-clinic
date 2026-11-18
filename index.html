@@ -304,4 +304,30 @@
  });
 })();
 </script>
-</body></html>
+<style id="clinic-new-patient-intake-fix">
+/* New-patient intake never displays the patient directory */
+.workspace-intake .patient-type.intake-context,.workspace-intake .patient-type.intake-context-live{display:flex;flex-direction:column;gap:6px;max-width:none;padding:18px 22px;border:1px solid #d8e7f2;border-radius:15px;background:#f2f8fc;color:#183d61}
+.workspace-intake .patient-type.intake-context strong,.workspace-intake .patient-type.intake-context-live strong{font-size:16px;line-height:1.4}
+.workspace-intake .patient-type.intake-context small,.workspace-intake .patient-type.intake-context-live small{font-size:13px;line-height:1.5;margin:0;color:#5a7085}
+</style>
+<script id="clinic-new-patient-intake">
+(function(){
+ function simplify(){
+  const panel=document.querySelector(".workspace-intake .stepped-intake .patient-type");
+  if(!panel||panel.classList.contains("intake-context")||panel.classList.contains("intake-context-live"))return;
+  // Keep the original selection behavior available in staff records, never in the new-patient form.
+  const selectedText=panel.querySelector("input")?.value||"";
+  const existing=!/^New patient/i.test(selectedText)&&selectedText.trim().length>0;
+  panel.classList.add("intake-context-live");
+  panel.replaceChildren();
+  const title=document.createElement("strong");title.textContent=existing?"Adding to an existing patient record":"Creating a new patient";
+  const note=document.createElement("small");note.textContent=existing?"Existing patient details were selected previously. Return to Staff records for patient management.":"Enter the new patient's information below. A unique patient ID will be generated when saved.";
+  panel.append(title,note);
+ }
+ document.addEventListener("DOMContentLoaded",()=>{
+  simplify();
+  const root=document.getElementById("root");
+  if(root)new MutationObserver(simplify).observe(root,{subtree:true,childList:true});
+ });
+})();
+</script></body></html>
